@@ -85,7 +85,6 @@ namespace FileSearch
         private int searchThroughFile(string path)
         {
             int count = 0;
-            int index = 0;
             string[] temp = null;
             using (PdfReader reader = new PdfReader(path))
             {
@@ -104,20 +103,10 @@ namespace FileSearch
                     {
 
                     }
-                    if (text != null)
+                    if (text != null && text.Contains(word))
                     {
-                        temp = text.ToString().Split();
-                    while (index < temp.Count())
-                    {
-                        if (temp[index].Equals(word))
-                        {
-                            count++;
-                        }
-                        index++;
-                    }
-                        }
-                    index = 0;
-                    
+                            count++;             
+                    }                    
                 }
                 
                
