@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using iTextSharp;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
+using System.IO;
 
 namespace FileSearch
 {
@@ -29,10 +30,17 @@ namespace FileSearch
         public bool getFiles()
         {
             bool validation = false;
-            if(null != this.path)
+            if(null != this.path && !path.Equals(""))
             {
-                files = System.IO.Directory.GetFiles(path, "*.pdf");
-                validation = true;
+                try
+                {
+                    files = System.IO.Directory.GetFiles(path, "*.pdf");
+                }
+                catch(DirectoryNotFoundException e)
+                {
+                    MessageBox.Show("Invalid path.\nDirectory not found!", "Error!");
+                }
+                    validation = true;
             }
             else
             {
@@ -50,35 +58,41 @@ namespace FileSearch
             activity.setVisibleProgBar(true);
             if(null == files)
             {
-                getFiles();
-               
+                getFiles();        
             }
             if (null != files)
             {
                 count = files.Count()-1;
-                h = 100/files.Count();
-                while (count != 0)
+                if (files.Count() >= 1)
                 {
-                    string file = files[count];
-                    nr = searchThroughFile(file);
-
-                    if (nr != 0)
+                    h = 100 / files.Count();
+                    while (count != 0)
                     {
-                        string temp =  file +" "+nr.ToString()+" times." ;
+                        string file = files[count];
+                        nr = searchThroughFile(file);
 
-                        var listViewItem = new ListViewItem(temp);
-                        activity.addListItem(listViewItem);
+                        if (nr != 0)
+                        {
+                            string temp = file + " " + nr.ToString() + " times.";
+
+                            var listViewItem = new ListViewItem(temp);
+                            activity.addListItem(listViewItem);
+                        }
+                        count--;
+                        progVal += h;
+                        activity.incrementProgBar(progVal);
                     }
-                    count--;
-                    progVal += h;
-                    activity.incrementProgBar(progVal);
+                    activity.incrementProgBar(100);
+                    activity.setVisibleProgBar(false);
                 }
-                activity.incrementProgBar(100);
-                activity.setVisibleProgBar(false);
+                else
+                {
+                    activity.setVisibleProgBar(false);
+                    MessageBox.Show("No file was found!", "Info");
+                }
             }
             else
             {
-                MessageBox.Show("No extension!", "Info");
             }
         
         }
@@ -105,7 +119,8 @@ namespace FileSearch
                     }
                     if (text != null && text.Contains(word))
                     {
-                            count++;             
+                        count++;
+                        text = null;
                     }                    
                 }
                 
@@ -131,13 +146,13 @@ namespace FileSearch
         public void setPath(string path)
         {
             this.path = path;
-            if (getFiles())
+            if(!path.Equals(""))
             {
-
+                getFiles();
             }
             else
             {
-                MessageBox.Show("No file with that extension!", "Info");
+
             }
         }
         public string getPath()

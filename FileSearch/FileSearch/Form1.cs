@@ -39,10 +39,49 @@ namespace FileSearch
            
             if(null == activity.getPath())
             {
-                activity.setPath(textBox1.Text);
-                activity.setWord(textBox2.Text);
+                if(!textBox1.Text.Equals(""))
+                {
+                    activity.setPath(textBox1.Text);
+                    if (!textBox2.Text.Equals(""))
+                    {
+                        activity.setWord(textBox2.Text);
+                        activity.search();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No expresion/word was set.\nPlease give a expresion/word first!", "Info");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No path was set.\nPlease set path first!", "Info");
+                }
+
+                
             }
-            activity.search();
+            else
+            {
+                activity.setPath("");
+                activity.setWord("");
+                if (!textBox1.Text.Equals(""))
+                {
+                    activity.setPath(textBox1.Text);
+                    if (!textBox2.Text.Equals(""))
+                    {
+                        activity.setWord(textBox2.Text);
+                        activity.search();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No expresion/word was set.\nPlease give a expresion/word first!", "Info");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No path was set.\nPlease set path first!", "Info");
+                }
+            }
+            
         }
 
         public void addListItem(ListViewItem item)
@@ -60,6 +99,31 @@ namespace FileSearch
         }
 
         private void progressBar1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }
