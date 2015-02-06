@@ -105,9 +105,14 @@ namespace FileSearch
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            
+            ListView.SelectedListViewItemCollection album = this.listView1.SelectedItems;
+            if (album.Count > 0)
+            {
+                string[] file = album[0].Text.Split(' ');
+                System.Diagnostics.Process.Start(file[0]);
+            }
         }
-
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
 
