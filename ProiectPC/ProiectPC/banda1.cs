@@ -37,18 +37,29 @@ namespace ProiectPC
                 {
                     if (data[0].Equals("B1"))
                     {
-                        activity.setExecuted();
+                        
                         if (data[1].Equals("M"))
                         {
-                            Thread.Sleep(1000);
-                            b1.Image = Properties.Resources.banda_poz_1;
-                            Thread.Sleep(1000);
-                            b1.Image = Properties.Resources.banda_poz_2;
-                            Thread.Sleep(1000);
+                            if(b1.Tag.ToString() == "banda_poz_0")
+                            {
+                                activity.setExecuted();
+                                Thread.Sleep(1000);
+                                b1.Image = Properties.Resources.banda_poz_1;
+                                b1.Tag = "banda_poz_1"; 
+                                Thread.Sleep(1000);
+                                b1.Image = Properties.Resources.banda_poz_2;
+                                b1.Tag = "banda_poz_2";
+                                Thread.Sleep(1000);
+                            }
+                            else
+                            {
+                                Thread.Sleep(1);
+                            }
+                            
                         }
                         else
                         {
-
+                            Thread.Sleep(1);
                         }
 
                     }

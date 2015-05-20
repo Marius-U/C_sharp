@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\demoPC.png" />
+    <None Include="Resources\background.png" />
     <None Include="Resources\blank.png" />
     <None Include="Resources\tampon_ocupat.jpg" />
     <None Include="Resources\tampon_gol.jpg" />
