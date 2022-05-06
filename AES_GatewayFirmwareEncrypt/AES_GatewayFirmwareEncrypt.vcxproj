@@ -153,17 +153,8 @@
     <ClCompile Include="Crypto\AES256.cpp" />
     <ClCompile Include="Crypto\AESCommon.cpp" />
     <ClCompile Include="Crypto\AESEsp32.cpp" />
-    <ClCompile Include="Crypto\AuthenticatedCipher.cpp" />
-    <ClCompile Include="Crypto\BigNumberUtil.cpp" />
     <ClCompile Include="Crypto\BlockCipher.cpp" />
-    <ClCompile Include="Crypto\Cipher.cpp" />
     <ClCompile Include="Crypto\Crypto.cpp" />
-    <ClCompile Include="Crypto\CTR.cpp" />
-    <ClCompile Include="Crypto\Hash.cpp" />
-    <ClCompile Include="Crypto\KeccakCore.cpp" />
-    <ClCompile Include="Crypto\SHAKE.cpp" />
-    <ClCompile Include="Crypto\XOF.cpp" />
-    <ClCompile Include="Crypto\XTS.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Crypto\AES.h" />

@@ -122,6 +122,7 @@ void perfCipher(BlockCipher* cipher, const struct TestVector* test)
     std::cout << test->name;
     std::cout << " Set Key ... ";
     start = micros();
+
     for (count = 0; count < 10000; ++count) {
         cipher->setKey(test->key, cipher->keySize());
     }
@@ -134,7 +135,8 @@ void perfCipher(BlockCipher* cipher, const struct TestVector* test)
     std::cout << test->name;
     std::cout << " Encrypt ... ";
     start = micros();
-    for (count = 0; count < 5000; ++count) {
+    for (count = 0; count < 5000; ++count) 
+    {
         cipher->encryptBlock(buffer, buffer);
     }
     elapsed = micros() - start;
@@ -160,25 +162,25 @@ void perfCipher(BlockCipher* cipher, const struct TestVector* test)
 
 void setup()
 {
-    std::cout << "/n";
+    std::cout << "\n";
 
-    std::cout << "State Sizes:/n";
+    std::cout << "State Sizes:\n";
     std::cout << "AES128 ... ";
     std::cout << sizeof(AES128);
-    std::cout << "/n";
+    std::cout << "\n";
     std::cout << "AES192 ... ";
     std::cout << sizeof(AES192);
-    std::cout << "/n";
+    std::cout << "\n";
     std::cout << "AES256 ... ";
     std::cout << sizeof(AES256);
-    std::cout << "/n";
+    std::cout << "\n";
 
     std::cout << "Test Vectors:\n";
     testCipher(&aes128, &testVectorAES128);
     testCipher(&aes192, &testVectorAES192);
     testCipher(&aes256, &testVectorAES256);
 
-    std::cout << "/n";
+    std::cout << "\n";
 
     std::cout << "Performance Tests:\n";
     perfCipher(&aes128, &testVectorAES128);
@@ -188,7 +190,6 @@ void setup()
 
 int main()
 {
-    std::cout << "Hello World!\n";
     static int flag = true;
     if (flag)
     {
