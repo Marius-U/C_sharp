@@ -27,10 +27,24 @@ AES128 myAES128;
 int main(int argc, char* argv[], char* envp[])
 {
     //Create the PATH object from the first passed argument
-    path pathToFirmware(argv[argc - 1]);
+    path pathToFirmware(argv[1]);
 
     string inPath = pathToFirmware.root_path().string().append(pathToFirmware.relative_path().string());
-    string outPath = pathToFirmware.parent_path().string().append("\\cyphered_").append(pathToFirmware.filename().string());
+    string outPath;
+    std::streampos fileSize;
+
+    if (!strcmp(argv[2], "1"))
+    {
+        //decrypt data and lace it in the buffer
+        cout << "Decrypt!" << endl;
+        outPath = pathToFirmware.parent_path().string().append("\\plain_").append(pathToFirmware.filename().string());
+    }
+    else
+    {
+        //encrypt data and lace it in the buffer
+        cout << "Encrypt!" << endl;
+        outPath = pathToFirmware.parent_path().string().append("\\cyphered_").append(pathToFirmware.filename().string());
+    }
 
 
     unsigned char data[16] = {0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u, 0x00u,
@@ -42,41 +56,55 @@ int main(int argc, char* argv[], char* envp[])
 
     if (plainFirmwareFile)
     {
+        
+        plainFirmwareFile.seekg(0, std::ios::end);
+        fileSize = plainFirmwareFile.tellg();
+        cout << (int)fileSize;
+        int count = 0x00u;
+
         plainFirmwareFile.seekg(ios::beg);
-        plainFirmwareFile.read(reinterpret_cast<char*>(data), 16 * sizeof(unsigned char));
 
-        //encrypt data and lace it in the buffer
-        encrypt(&myAES128, data);
+        if (cypheredFirmwareFile)
+        {
+            cypheredFirmwareFile.seekp(ios::beg);
 
+            while(count < (int)fileSize) //(!plainFirmwareFile.eof())
+            {
+                //read 16 bytes from plain Firmware
+                plainFirmwareFile.read(reinterpret_cast<char*>(data), 16 * sizeof(unsigned char));
+
+                if (!strcmp(argv[2],"1"))
+                {
+                    //decrypt data and lace it in the buffer
+                    decrypt(&myAES128, data);
+                }
+                else
+                {
+                    //encrypt data and lace it in the buffer
+                    encrypt(&myAES128, data);
+                }
+
+                //write the encrypted 16bytes to the cyphered Firmware
+                cypheredFirmwareFile.write(reinterpret_cast<char*>(encryptBuffer), 16 * sizeof(unsigned char));
+
+                count += 16;
+            }
+
+            //close output file when done
+            cypheredFirmwareFile.close();
+        }
+        else
+        {
+            cout << "Out file could not be opened!" << endl;
+        }
+
+        //close input file when done
         plainFirmwareFile.close();
     }
     else
     {
         cout << "Input file could not be opened!" << endl;
     }   
-
-    if (cypheredFirmwareFile)
-    {
-        cypheredFirmwareFile.seekp(ios::beg);
-        cypheredFirmwareFile.write(reinterpret_cast<char*>(encryptBuffer), 16 * sizeof(unsigned char));
-
-        decrypt(&myAES128, encryptBuffer);
-        cypheredFirmwareFile.write(reinterpret_cast<char*>(encryptBuffer), 16 * sizeof(unsigned char));
-
-        cypheredFirmwareFile.close();
-    }
-    else
-    {
-        cout << "Out file could not be opened!" << endl;
-    }
-    
-
-    bool flag = false;
-    if (flag)
-    {
-        test();
-        flag = false;
-    }
 
    // system("pause");
 }
