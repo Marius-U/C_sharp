@@ -35,13 +35,13 @@ int main(int argc, char* argv[], char* envp[])
 
     if (!strcmp(argv[2], "1"))
     {
-        //decrypt data and lace it in the buffer
+        //decrypt data and pace it in the buffer
         cout << "Decrypt!" << endl;
         outPath = pathToFirmware.parent_path().string().append("\\plain_").append(pathToFirmware.filename().string());
     }
     else
     {
-        //encrypt data and lace it in the buffer
+        //encrypt data and pace it in the buffer
         cout << "Encrypt!" << endl;
         outPath = pathToFirmware.parent_path().string().append("\\cyphered_").append(pathToFirmware.filename().string());
     }
@@ -75,12 +75,12 @@ int main(int argc, char* argv[], char* envp[])
 
                 if (!strcmp(argv[2],"1"))
                 {
-                    //decrypt data and lace it in the buffer
+                    //decrypt data and place it in the buffer
                     decrypt(&myAES128, data);
                 }
                 else
                 {
-                    //encrypt data and lace it in the buffer
+                    //encrypt data and place it in the buffer
                     encrypt(&myAES128, data);
                 }
 
